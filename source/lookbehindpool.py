@@ -52,7 +52,9 @@ class LookBehindPool:
         update_lambda(self._pool[self._current_position])
         self._move_forward()
 
-    def read_back(self, count, item_lambda=None):
+    def read_back(self, count=None, item_lambda=None):
+        if count is None:
+            count = self.length
         if self._length >= count:
             for i in range(count):
                 if item_lambda is None:
