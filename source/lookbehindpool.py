@@ -44,12 +44,12 @@ class LookBehindPool:
     def is_valid_index(self, index):
         return self._length > index
 
-    def write_forward(self, value):
+    def assign(self, value):
         self._pool[self._current_position] = value
         self._move_forward()
 
-    def set_forward(self, set_lambda):
-        set_lambda(self._pool[self._current_position])
+    def update(self, update_lambda):
+        update_lambda(self._pool[self._current_position])
         self._move_forward()
 
     def read_back(self, count, item_lambda=None):
