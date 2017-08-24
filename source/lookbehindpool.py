@@ -62,6 +62,9 @@ class LookBehindPool:
         else:
             raise Exception("Pool index is out of range.  You can only read back maximum of {} items. \
                 You can use 'is_valid_index()' or 'length' to validate your 'count' parameter".format(self._length))
+				
+	def list_back(self, count, item_lambda=None):
+		return list(self.read_back(count, item_lambda))
 
 # Internal methods
 
