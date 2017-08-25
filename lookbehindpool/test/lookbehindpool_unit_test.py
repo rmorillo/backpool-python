@@ -1,3 +1,6 @@
+import os.path, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
+
 from lookbehindpool import LookBehindPool
 
 
@@ -21,9 +24,9 @@ def test_capacity():
 def test_writing():
     pool = LookBehindPool(10, lambda: PoolItem(0))
     assert(len(pool._pool) == 10)
-    pool.set_forward(lambda item: item.write(1))
+    pool.update(lambda item: item.write(1))
     assert(pool.current.value == 1)
-    pool.set_forward(lambda item: item.write(2))
+    pool.update(lambda item: item.write(2))
     assert(pool.current.value == 2)
     assert(pool[1].value == 1)
 
@@ -31,13 +34,13 @@ def test_writing():
 def test_rollover():
     pool = LookBehindPool(3)
     assert(pool._current_position == 0)
-    pool.write_forward(1)
+    pool.assign(1)
     assert(pool._current_position == 1)
     assert(pool.current == 1)
-    pool.write_forward(2)
+    pool.assign(2)
     assert(pool._current_position == 2)
     assert(pool.current == 2)
-    pool.write_forward(3)
+    pool.assign(3)
     assert(pool._current_position == 0)
     assert(pool.current == 3)
     assert(pool.previous == 2)
@@ -46,7 +49,7 @@ def test_rollover():
 def test_read_back():
     pool = LookBehindPool(20, lambda: PoolItem(0))
     for i in range(10):
-        pool.set_forward(lambda item: item.write(i))
+        pool.update(lambda item: item.write(i))
 
     result = list(pool.read_back(5, lambda item: item.value))
     assert(len(result) == 5)
