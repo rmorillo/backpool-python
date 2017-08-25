@@ -13,11 +13,17 @@ class LookBehindPool:
 
     @property
     def current(self):
-        return self._pool[self._last_position]
+        if self._length > 0:
+            return self._pool[self._last_position]
+        else:
+            raise Exception("There is no current value.  You can use 'has_current' property to check if current value is accessible.")
 
     @property
     def previous(self):
-        return self._pool[self._get_absolute_index(1)]
+        if self.has_previous_value:
+            return self._pool[self._get_absolute_index(1)]
+        else:
+            raise Exception("There is no previous value.  You can use 'has_previous' property to check if previous value is accessible.")
 
     @property
     def length(self):
@@ -28,11 +34,11 @@ class LookBehindPool:
         return self._sequence
 
     @property
-    def has_value(self):
+    def has_current(self):
         return self._length > 0
 
     @property
-    def has_previous_value(self):
+    def has_previous(self):
         return self._length > 1
 
     @property
@@ -63,7 +69,7 @@ class LookBehindPool:
                     yield item_lambda(self[i])
         else:
             raise Exception("Pool index is out of range.  You can only read back maximum of {} items. \
-                You can use 'is_valid_index()' or 'length' to validate your 'count' parameter".format(self._length))
+                You can use 'is_valid_index()' method or 'length' property to validate your 'count' parameter value.".format(self._length))
 				
     def list_back(self, count=None, item_lambda=None):
         return list(self.read_back(count, item_lambda))
@@ -77,7 +83,7 @@ class LookBehindPool:
             if self._has_rolled_over and absolute_index > self._last_position:
                 target_index = absolute_index
             else:
-                raise Exception("Pool index is out of range.  You can only pass index values from 0 to {}"
+                raise Exception("Pool index is out of range.  You can only use index values from 0 to {}"
                                 .format(self._length - 1))
 
         return target_index
