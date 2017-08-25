@@ -2,7 +2,7 @@ from lookbehindpool import LookBehindPool
 from threading import Thread
 from queue import Queue
 
-class LookBehindSafely:
+class SafePoolTransit:
     def __init__(self, unsafe_pool, update_lambda=None):
         self._unsafe_pool = unsafe_pool
         self._update_lambda = update_lambda

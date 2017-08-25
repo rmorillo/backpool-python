@@ -1,8 +1,5 @@
-import os.path, sys
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
+from lookbehindpool import LookBehindPool, SafePoolTransit
 
-from lookbehindpool import LookBehindPool
-from lookbehindsafely import SafeTransitPool
 import time
 
 class PoolItem:
